@@ -1,0 +1,116 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_card_swiper/flutter_card_swiper.dart';
+import 'package:tabula/models/network/api.dart';
+import 'package:tabula/widgets/app_bar_widget.dart';
+
+import 'package:tabula/pages/create/example_candidate_model.dart';
+import 'package:tabula/pages/create/example_card.dart';
+
+class CreateCollectionCardViewScreen extends StatefulWidget {
+  const CreateCollectionCardViewScreen({Key? key}) : super(key: key);
+
+  @override
+  _CreateCollectionCardViewScreenState createState() =>
+      _CreateCollectionCardViewScreenState();
+}
+
+class _CreateCollectionCardViewScreenState
+    extends State<CreateCollectionCardViewScreen> {
+  final TextEditingController nameController = TextEditingController();
+  final CardSwiperController controller = CardSwiperController();
+  final cards = candidates.map(ExampleCard.new).toList();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const AppBarWidget(),
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+        child: Column(
+          children: [
+            Flexible(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  CardSwiper(
+                    controller: controller,
+                    cardsCount: cards.length,
+                    onSwipe: _onSwipe,
+                    onUndo: _onUndo,
+                    numberOfCardsDisplayed: 2,
+                    backCardOffset: const Offset(20, 20),
+                    padding: const EdgeInsets.fromLTRB(75, 200, 75, 200),
+                    cardBuilder: (context, index) => cards[index],
+                  ),
+                  Positioned(
+                    left: 5,
+                    top: MediaQuery.of(context).size.height / 2 - 80,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        controller.swipeLeft();
+                      },
+                      child: const Icon(Icons.keyboard_arrow_left),
+                    ),
+                  ),
+                  Positioned(
+                    right: 5,
+                    top: MediaQuery.of(context).size.height / 2 - 80,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        controller.swipeRight();
+                      },
+                      child: const Icon(Icons.keyboard_arrow_right),
+                    ),
+                  ),
+                  Positioned(
+                    left: MediaQuery.of(context).size.width / 2 - 30,
+                    top: 130,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        controller.swipeTop();
+                      },
+                      child: const Icon(Icons.keyboard_arrow_up),
+                    ),
+                  ),
+                  Positioned(
+                    left: MediaQuery.of(context).size.width / 2 - 30,
+                    bottom: 130,
+                    child: FloatingActionButton(
+                      onPressed: () {
+                        controller.swipeBottom();
+                      },
+                      child: const Icon(Icons.keyboard_arrow_down),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  bool _onSwipe(
+      int previousIndex,
+      int? currentIndex,
+      CardSwiperDirection direction,
+      ) {
+    debugPrint(
+      'The card $previousIndex was swiped to the ${direction.name}. Now the card $currentIndex is on top',
+    );
+    return true;
+  }
+
+  bool _onUndo(
+      int? previousIndex,
+      int currentIndex,
+      CardSwiperDirection direction,
+      ) {
+    debugPrint(
+      'The card $currentIndex was undod from the ${direction.name}',
+    );
+    return true;
+  }
+}
