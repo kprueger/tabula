@@ -45,6 +45,7 @@ class _PlayScreenState extends State<PlayScreen> {
   Color colorRight = Colors.grey;
   Color colorLeft = Colors.grey;
   Color colorUp = Colors.grey;
+  int _visibleCards = 2;
 
   @override
   void initState() {
@@ -67,6 +68,10 @@ class _PlayScreenState extends State<PlayScreen> {
 
     cards = widget.session.collection.cards;
     super.initState();
+
+    if (widget.wrongIndexCardsCollection.length == 1) {
+      _visibleCards = 1;
+    }
   }
 
   @override
@@ -91,7 +96,7 @@ class _PlayScreenState extends State<PlayScreen> {
                       onEnd: _onEnd,
                       onSwipeDirectionChange: _onSwipeDirectionChange,
                       isLoop: false,
-                      numberOfCardsDisplayed: 2,
+                      numberOfCardsDisplayed: _visibleCards,
                       allowedSwipeDirection: AllowedSwipeDirection.only(
                           up: true, left: true, right: true, down: true),
                       backCardOffset: const Offset(25, 15),
