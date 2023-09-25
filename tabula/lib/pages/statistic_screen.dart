@@ -205,43 +205,49 @@ class _StatisticScreenState extends State<StatisticScreen> {
           ),
         ),
         const SizedBox(height: 10),
-        SizedBox(
-          width: 280.0,
-          child: ElevatedButton(
-            style: ButtonStyle(
+        Visibility(
+          visible: !widget.wrongCards.isEmpty, // Button ist sichtbar, wenn wrongCards nicht leer ist
+          child: SizedBox(
+            width: 280.0,
+            child: ElevatedButton(
+              style: ButtonStyle(
                 padding: const MaterialStatePropertyAll(EdgeInsets.all(20.0)),
                 backgroundColor: const MaterialStatePropertyAll(Colors.purple),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                ))),
-            onPressed: () {
-              widget.wrongCards.isEmpty
-                  ? null
-                  : Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PlayScreen(
-                                collectionName: widget.collectionName,
-                                collectionImageURL: widget.collectionImageURL,
-                                session: PlaySession(),
-                                random: false,
-                                quick: false,
-                                takeFront: widget.takeFront,
-                                wrongIndexCardsCollection: widget.wrongCards,
-                              )), (r) {
-                      return false;
-                    });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.close),
-                Text(
-                  "retry unknown vokabularies",
-                  style: TextStyle(color: Colors.white),
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                 ),
-              ],
+              ),
+              onPressed: () {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PlayScreen(
+                      collectionName: widget.collectionName,
+                      collectionImageURL: widget.collectionImageURL,
+                      session: PlaySession(),
+                      random: false,
+                      quick: false,
+                      takeFront: widget.takeFront,
+                      wrongIndexCardsCollection: widget.wrongCards,
+                    ),
+                  ),
+                      (r) {
+                    return false;
+                  },
+                );
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Icon(Icons.close),
+                  Text(
+                    "retry unknown vocabularies",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
