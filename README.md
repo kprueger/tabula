@@ -8,9 +8,10 @@ In this state the app acts more like a prototype, we are planing to develop the 
 
 We see the repository as a place for everyone to feel free to play around with the app, fork the project etc.
 
-[Demo Video]
+https://github.com/kprueger/tabula/assets/39732702/23846476-5947-4fd3-b9a1-32aea9abae2b
 
-[Feature Screenshots]
+
+[Feature Screenshots tbd]
 
 ## Install
 
